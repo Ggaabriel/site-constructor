@@ -1,0 +1,13 @@
+node_modules/
+build/
+packages/
+
+README.md
+*.env
+
+bot/
+backend/
+.git*
+
+.idea/
+.vscode/

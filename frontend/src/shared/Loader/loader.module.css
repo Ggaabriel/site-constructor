@@ -1,0 +1,20 @@
+.bg {
+  background: linear-gradient(#7942d1, #e74eea);
+  @apply min-h-[100dvh] min-w-[100vw] flex items-center justify-center fixed z-50 top-0;
+}
+
+.loader {
+  animation: blink infinite 1s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_chache/
+.git
+venv
+*env
+*.idea/
+*.vscode/

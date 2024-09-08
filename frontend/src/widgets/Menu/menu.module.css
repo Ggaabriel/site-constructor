@@ -1,0 +1,8 @@
+
+@media screen and (max-height: 654px){
+    .menu {
+        @apply fixed w-full !bottom-[0]  -translate-x-1/2 !rounded-none;
+
+
+    }
+}

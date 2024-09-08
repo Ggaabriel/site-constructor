@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .container {
+        @apply max-w-[373px] px-[20px] w-full mx-auto
+    }
+}
+
+@layer components {
+    .title {
+        @apply font-bold text-24 text-main text-center
+    }
+}
+body {
+    background: linear-gradient(#7942D1, #E74EEA);
+    height: 100%;    
+}
+
+*{ 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: rotate(-0.7deg);
+    }
+    50% {
+        transform: rotate(0.7deg);
+    }
+}
+
+.shake {
+    animation: shake 0.25s infinite;
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    background: #fff;
+    width: 100%;
+
+    border-radius: 50px;
+    overflow: hidden;
+    outline: none;
+    cursor: inherit;
+  }

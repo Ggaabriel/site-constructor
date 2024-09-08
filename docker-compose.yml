@@ -1,0 +1,68 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - MODE=${MODE}
+        - SERVER_NAME=${SERVER_NAME}
+    volumes:
+      - html_volume:/app/dist
+
+  backend:
+    build: ./backend
+    depends_on:
+      - dynamodb
+      - storage
+    volumes:
+      - storage_volume:/storage
+    environment:
+      - MODE=${MODE}
+      - BOT_KEY=${TELEGRAM_TOKEN}
+      - AWS_ACCESS_KEY_ID=${YDB_DOCUMENT_API_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${YDB_DOCUMENT_API_SECRET_ACCESS_KEY}
+      - YDB_DOCUMENT_API_ENDPOINT=${YDB_DOCUMENT_API_ENDPOINT}
+  
+  storage:
+    build: ./object_service
+    volumes:
+      - storage_volume:/storage
+    ports:
+      - "7000:7000"
+
+  dynamodb:
+    command: "-jar DynamoDBLocal.jar -disableTelemetry -inMemory -sharedDb"
+    image: "amazon/dynamodb-local:latest"
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        - MODE=${MODE}
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - SERVER_NAME=$SERVER_NAME
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /tmp/acme_challenge:/tmp/acme_challenge
+      - html_volume:/usr/share/nginx/html:ro
+    depends_on:
+      - frontend
+      - backend
+
+  bot:
+    build:
+      context: ./bot
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - MODE=${MODE}
+      - SERVER_NAME=${SERVER_NAME}
+
+volumes:
+  html_volume:
+  storage_volume:
